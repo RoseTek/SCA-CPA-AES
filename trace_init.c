@@ -26,13 +26,8 @@ void get_traces(double **traces, int**input){
   while ((nread = getline(&line, &len, stream)) != -1) {
     line[nread-1] = '\0';
     traces[j][i] = atof(line);
-    /* if (j<10 && i>=0 && i<=15) */
-    /*   printf("%s\t%f\n", line,traces[j][i]); */
-    /* printf("%f\n",traces[j][i]); */
-    /*   printf("Pdt capture : %d %d : %f\n", j, i, traces[j][i]); */
     i++;
     if (i == NB_SAMPLES){
-      /* printf("Trace suivante : %d\n", j); */
       j++;
       i =0;
     }

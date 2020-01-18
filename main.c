@@ -76,6 +76,7 @@ double correlation(int *x, double *y){
 
   /* calculate correlation coefficient */
   coeff = fabs(num / sqrt(deno));
+  return coeff;
 }
 
 void main_loop(double **trace, int **input){
