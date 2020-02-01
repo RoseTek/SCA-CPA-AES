@@ -59,7 +59,6 @@ double correlation(int *x, double *y){
   double num;
   double deno;
 
-  /* find the needed data to manipulate correlation coeff */
   for (i = 0; i < n; i++) {
     xy[i] = x[i] * y[i];
     xsquare[i] = x[i] * x[i];
@@ -74,7 +73,6 @@ double correlation(int *x, double *y){
   num = 1.0 * ((n * xysum) - (xsum * ysum));
   deno = 1.0 * ((n * xsqr_sum - xsum * xsum)* (n * ysqr_sum - ysum * ysum));
 
-  /* calculate correlation coefficient */
   coeff = fabs(num / sqrt(deno));
   return coeff;
 }
@@ -92,23 +90,21 @@ void main_loop(double **trace, int **input){
     {
       key = -1;
       corr_max = -1;
-      //pas vraiment necessaire, on pourrait utiliser directement input[][]
-      // int *text_val = tous les octets x de input
       for (i=0; i<NB_TRACES; i++)
 	text_val[i] = input[i][octet_order[current_byte]];
 
-      // int **hamming_val = poids de hamming des retour de sbox entre chaque text_val XOR vl_hypothese_key)
-
+      // Hamming Weight of SBox(input_text XOR guessed_key)
       int hamming_val[256][NB_TRACES];
       for (j=0;j<256;j++)
 	for (i=0;i<NB_TRACES;i++)
 	  hamming_val[j][i] = hw[sbox_table[text_val[i] ^ j]];
   
-      //toutes les val au point de la sbox pour chaque trace
+      // Values from trace where the correct SBox is
       double res_val[NB_TRACES];
       for (i=0; i<NB_TRACES; i++)
 	res_val[i] = trace[i][current_pos];
-  
+ 
+      // Correlation 
       double corr[256];
       for (i=0; i<256; i++){
 	corr[i] = correlation(hamming_val[i], res_val);
